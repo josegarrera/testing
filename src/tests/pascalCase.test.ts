@@ -1,35 +1,35 @@
 import { toPascalCase } from '../core/pascalCase';
 
 describe('Camel Case Kata', () => {
-  it('should return empty string if the input is an empty string', () => {
+  it('allows empty text', () => {
     expect(toPascalCase('')).toBe('');
   });
 
-  it('should return the same input when the input is a word with the first letter as uppercase', () => {
+  it('allows a capitalized word', () => {
     expect(toPascalCase('Foo')).toBe('Foo');
   });
 
-  it("should return 'FooBar' when the input is 'Foo Bar'", () => {
+  it('joins two capitalized words space separated', () => {
     expect(toPascalCase('Foo Bar')).toBe('FooBar');
   });
 
-  it("should return 'FooBarZet' when the input is 'Foo Bar Zet'", () => {
+  it('joins many capitalized words spaces separated', () => {
     expect(toPascalCase('Foo Bar Zet')).toBe('FooBarZet');
   });
 
-  it("should return 'FooBarFoo' when the input is 'Foo_Bar_Foo'", () => {
-    expect(toPascalCase('Foo_Bar_Foo')).toBe('FooBarFoo');
+  it('joins many capitalized words hyphens separated', () => {
+    expect(toPascalCase('Foo_Bar-Foo')).toBe('FooBarFoo');
   });
 
-  it("should return 'Foo' when the input is 'foo'", () => {
+  it('capitalizes a lowercase word', () => {
     expect(toPascalCase('foo')).toBe('Foo');
   });
 
-  it("should return 'FooBarFooBar' when the input is 'foo_bar foo-bar'", () => {
+  it('joins many words separated by dashes and/or spaces', () => {
     expect(toPascalCase('foo_bar foo-bar')).toBe('FooBarFooBar');
   });
 
-  it("should return 'FooBarFooBar' when the input is 'foo__bar  foo-_bar'", () => {
+  it('joins many words separated by many dashes and/or many spaces capitalizing every word', () => {
     expect(toPascalCase('foo__bar  foo-_bar')).toBe('FooBarFooBar');
   });
 });
