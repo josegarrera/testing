@@ -1,6 +1,6 @@
 export function toPascalCase(text: string): string {
-  const spacesAndDashesRegex = /[ _-]/gi;
-  const wordsList = text.split(spacesAndDashesRegex);
+  const spacesAndHyphensRegex = /[ _-]/gi;
+  const wordsList = text.split(spacesAndHyphensRegex);
   const pascalCaseWordsList = wordsList.map(
     word => word.substring(0, 1).toUpperCase() + word.substring(1)
   );
