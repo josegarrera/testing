@@ -13,6 +13,10 @@ export class SurveillanceController {
     private videoRecorder: VideoRecorder
   ) {}
 
+  start() {
+    setInterval(() => this.recordMotion(), 1000);
+  }
+
   recordMotion() {
     try {
       this.motionSensor.isDetectingMotion()

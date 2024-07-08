@@ -67,21 +67,18 @@ describe('Video Surveillance Controller', () => {
   });
 
   it('checks the motion sensor state every second', () => {
-    const stubMotionSensor = jest.spyOn(
+    jest.useFakeTimers();
+    const spyMotionSensor = jest.spyOn(
       motionSensor,
       'isDetectingMotion'
     );
-    stubMotionSensor.mockImplementation(() => {
-      throw new Error('unexpected error');
-    });
-    const spyVideoRecorder = jest.spyOn(
-      videoRecorder,
-      'stopRecording'
-    );
-
-    controller.recordMotion();
-
-    expect(spyVideoRecorder).toHaveBeenCalled();
+    controller.start();
+    jest.advanceTimersByTime(1000);
+    expect(spyMotionSensor).toHaveBeenCalledTimes(1);
+    jest.advanceTimersByTime(1000);
+    expect(spyMotionSensor).toHaveBeenCalledTimes(2);
+    jest.advanceTimersByTime(5000);
+    expect(spyMotionSensor).toHaveBeenCalledTimes(7);
   });
 });
 
