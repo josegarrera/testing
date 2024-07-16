@@ -89,10 +89,6 @@ class FakeSensorDetectingMotion implements MotionSensor {
 }
 
 class FakeVideoRecorder implements VideoRecorder {
-  startRecording(): void {
-    console.log('start recording');
-  }
-  stopRecording(): void {
-    console.log('stop recording');
-  }
+  startRecording(): void {}
+  stopRecording(): void {}
 }

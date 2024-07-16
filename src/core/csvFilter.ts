@@ -1,3 +1,6 @@
+const IVA_COLUMN_POSITION = 4;
+const IGIC_COLUMN_POSITION = 5;
+const EMPTY_VALUE = '';
 export class CsvFilter {
   private constructor(private readonly lines: string[]) {}
 
@@ -7,11 +10,14 @@ export class CsvFilter {
 
   get filteredLines() {
     return this.lines.filter((line, index) => {
-      const listLine = line.split(',');
-      return index !== 0
-        ? (listLine[5] === '' && listLine[6] !== '') ||
-            (listLine[6] === '' && listLine[5] !== '')
-        : true;
+      const cells = line.split(',');
+      return index !== 0 ? bothTaxesWithValues(cells) : true;
     });
   }
 }
+
+const bothTaxesWithValues = cells =>
+  (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
+    cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
+  (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
+    cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE);
