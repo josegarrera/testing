@@ -1,16 +1,50 @@
+const nothingToAdd = 0;
+const beginingOfConfig = '//';
+const endOfConfig = '/';
+
 export const stringCalculator = (
   expressionToCalculate: string | null
 ) => {
-  if (expressionToCalculate === null) return 0;
+  if (!expressionToCalculate) return nothingToAdd;
   let separator = ',';
-  if (expressionToCalculate.startsWith('/')) {
-    separator = expressionToCalculate[2];
-    expressionToCalculate = expressionToCalculate.slice(4);
+  if (expressionToCalculate.startsWith(beginingOfConfig)) {
+    separator = getSeparator(
+      expressionToCalculate,
+      beginingOfConfig,
+      endOfConfig
+    );
+    expressionToCalculate = removeConfigFrom(
+      expressionToCalculate,
+      endOfConfig
+    );
   }
   const sum = expressionToCalculate
     .split(separator)
-    .map(stringNumber => Number(stringNumber))
-    .filter(el => !Number.isNaN(el))
-    .reduce((prev, curr) => prev + curr, 0);
-  return Number(sum);
+    .map(getNumber)
+    .reduce(sumOfNumbers, 0);
+  return sum;
 };
+
+const getSeparator = (
+  expression: string,
+  beginingOfConfig: string,
+  endOfConfig: string
+) =>
+  expression.slice(
+    beginingOfConfig.length,
+    expression.lastIndexOf(endOfConfig)
+  );
+
+const removeConfigFrom = (
+  expression: string,
+  endOfConfig: string
+): string =>
+  expression.slice(expression.lastIndexOf(endOfConfig) + 1);
+
+const getNumber = stringNumber => {
+  const parsedNumber = Number(stringNumber);
+  return isNaN(parsedNumber) ? 0 : Number(stringNumber);
+};
+
+const sumOfNumbers = (previousNumber, currentNumber) =>
+  previousNumber + currentNumber;
