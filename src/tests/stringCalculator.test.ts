@@ -32,12 +32,29 @@ describe('String Calculator Kata', () => {
     expect(calculation).toBe(6);
   });
 
-  it('should return the sum of the numbers ignoring not numeric characters', () => {
-    const stringToCalculate = '1,2,a,3';
+  describe('should return the sum of the numbers ignoring not numeric characters', () => {
+    it('should return zero as number if it has only non numeric values', () => {
+      const stringToCalculate = 'a';
 
-    const calculation = stringCalculator(stringToCalculate);
+      const calculation = stringCalculator(stringToCalculate);
 
-    expect(calculation).toBe(6);
+      expect(calculation).toBe(0);
+    });
+    it('should return the sum of the numbers if it has non numeric characters', () => {
+      const stringToCalculate = '1,2,a,3';
+
+      const calculation = stringCalculator(stringToCalculate);
+
+      expect(calculation).toBe(6);
+    });
+
+    it('should return the sum of the numbers if it has non numeric characters', () => {
+      const stringToCalculate = '1a,2';
+
+      const calculation = stringCalculator(stringToCalculate);
+
+      expect(calculation).toBe(2);
+    });
   });
 
   it('should work with custom separators indicated at the begining of the expression', () => {
@@ -46,5 +63,13 @@ describe('String Calculator Kata', () => {
     const calculation = stringCalculator(stringToCalculate);
 
     expect(calculation).toBe(6);
+  });
+
+  it('should work with custom separators indicated at the begining of the expression', () => {
+    const stringToCalculate = '//./1,2,3';
+
+    const calculation = stringCalculator(stringToCalculate);
+
+    expect(calculation).toBe(0);
   });
 });
