@@ -38,16 +38,16 @@ export class CsvFilter {
     return this.lines.filter((line, index) => index !== 0);
   }
 
-  private hasValidTaxesCombination(cells) {
+  private hasValidTaxesCombination = cells => {
     return (
       (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
       (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE)
     );
-  }
+  };
 
-  private hasCorrectNetCalculation(cells) {
+  private hasCorrectNetCalculation = cells => {
     const gross = Number(cells[GROSS_COLUMN_POSITION]);
     const net = Number(cells[NET_COLUMN_POSITION]);
     const iva = Number(cells[IVA_COLUMN_POSITION]);
@@ -55,18 +55,18 @@ export class CsvFilter {
     const taxes = Math.max((gross * iva) / 100, (gross * igic) / 100);
     const netCalculation = gross - taxes;
     return netCalculation === net;
-  }
+  };
 
-  private hasValidInfoCombination(cells) {
+  private hasValidInfoCombination = cells => {
     return (
       (cells[CIF_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[NIF_COLUMN_POSITION] !== EMPTY_VALUE) ||
       (cells[NIF_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[CIF_COLUMN_POSITION] !== EMPTY_VALUE)
     );
-  }
+  };
 
-  private validateInvoicesNumber(rows) {
+  private validateInvoicesNumber = rows => {
     const invoicesNumberCount = {};
     rows.forEach(row => {
       const cells = row.split(',');
@@ -81,5 +81,5 @@ export class CsvFilter {
         1
       );
     });
-  }
+  };
 }
