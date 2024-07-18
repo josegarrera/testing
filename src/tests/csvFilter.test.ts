@@ -59,10 +59,9 @@ describe('CSV Filter', () => {
   });
 
   it('should give an error if you give a one line list because it has no headers', () => {
-    const invoiceLines = [
-      '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,',
-    ];
-    expect(() => CsvFilter.create(invoiceLines)).toThrow(
+    const invoiceLine =
+      '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,';
+    expect(() => CsvFilter.create([invoiceLine])).toThrow(
       'No header found'
     );
   });
