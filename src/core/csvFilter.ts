@@ -15,17 +15,9 @@ export class CsvFilter {
     const rows = this.rows;
     const rowsFiltered = rows.filter(row => {
       const cells = row.split(',');
-      const gross = Number(cells[GROSS_COLUMN_POSITION]);
-      const net = Number(cells[NET_COLUMN_POSITION]);
-      const iva = Number(cells[IVA_COLUMN_POSITION]);
-      const igic = Number(cells[IGIC_COLUMN_POSITION]);
-      const taxes = Math.max(
-        (gross * iva) / 100,
-        (gross * igic) / 100
-      );
-      const netCalculation = gross - taxes;
       return (
-        this.hasValidTaxCombination(cells) && netCalculation === net
+        this.hasValidTaxCombination(cells) &&
+        this.hasCorrectNetCalculation(cells)
       );
     });
     return [...header, ...rowsFiltered];
@@ -46,5 +38,15 @@ export class CsvFilter {
       (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE)
     );
+  }
+
+  private hasCorrectNetCalculation(cells) {
+    const gross = Number(cells[GROSS_COLUMN_POSITION]);
+    const net = Number(cells[NET_COLUMN_POSITION]);
+    const iva = Number(cells[IVA_COLUMN_POSITION]);
+    const igic = Number(cells[IGIC_COLUMN_POSITION]);
+    const taxes = Math.max((gross * iva) / 100, (gross * igic) / 100);
+    const netCalculation = gross - taxes;
+    return netCalculation === net;
   }
 }
