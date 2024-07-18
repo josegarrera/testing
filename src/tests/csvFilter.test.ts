@@ -65,4 +65,14 @@ describe('CSV Filter', () => {
     const result = csvFilter.filteredLines;
     expect(result).toEqual([header]);
   });
+
+  it('removes lines if IVA or IGIC has characters in it', () => {
+    const invoiceLines = [
+      '1,02/05/2021,1000,790,2a1,,ACER Laptop,B76430134,',
+      '2,02/05/2021,1000,790,,2b1,ACER Laptop,B76430134,',
+    ];
+    const csvFilter = CsvFilter.create([header, ...invoiceLines]);
+    const result = csvFilter.filteredLines;
+    expect(result).toEqual([header]);
+  });
 });
