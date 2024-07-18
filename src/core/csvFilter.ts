@@ -9,13 +9,21 @@ export class CsvFilter {
   }
 
   get filteredLines() {
-    const header = this.lines.filter((line, index) => index === 0);
-    const rows = this.lines.filter((line, index) => index !== 0);
+    const header = this.header;
+    const rows = this.rows;
     const rowsFiltered = rows.filter(row => {
       const cells = row.split(',');
       return this.hasValidTaxCombination(cells);
     });
     return [...header, ...rowsFiltered];
+  }
+
+  private get header() {
+    return this.lines.filter((line, index) => index === 0);
+  }
+
+  private get rows() {
+    return this.lines.filter((line, index) => index !== 0);
   }
 
   private hasValidTaxCombination(cells) {
