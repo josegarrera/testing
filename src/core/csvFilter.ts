@@ -2,6 +2,8 @@ const GROSS_COLUMN_POSITION = 2;
 const NET_COLUMN_POSITION = 3;
 const IVA_COLUMN_POSITION = 4;
 const IGIC_COLUMN_POSITION = 5;
+const CIF_COLUMN_POSITION = 7;
+const NIF_COLUMN_POSITION = 8;
 const EMPTY_VALUE = '';
 export class CsvFilter {
   private constructor(private readonly lines: string[]) {}
@@ -16,8 +18,9 @@ export class CsvFilter {
     const rowsFiltered = rows.filter(row => {
       const cells = row.split(',');
       return (
-        this.hasValidTaxCombination(cells) &&
-        this.hasCorrectNetCalculation(cells)
+        this.hasValidTaxesCombination(cells) &&
+        this.hasCorrectNetCalculation(cells) &&
+        this.hasValidInfoCombination(cells)
       );
     });
     return [...header, ...rowsFiltered];
@@ -31,7 +34,7 @@ export class CsvFilter {
     return this.lines.filter((line, index) => index !== 0);
   }
 
-  private hasValidTaxCombination(cells) {
+  private hasValidTaxesCombination(cells) {
     return (
       (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
@@ -48,5 +51,14 @@ export class CsvFilter {
     const taxes = Math.max((gross * iva) / 100, (gross * igic) / 100);
     const netCalculation = gross - taxes;
     return netCalculation === net;
+  }
+
+  private hasValidInfoCombination(cells) {
+    return (
+      (cells[CIF_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[NIF_COLUMN_POSITION] !== EMPTY_VALUE) ||
+      (cells[NIF_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[CIF_COLUMN_POSITION] !== EMPTY_VALUE)
+    );
   }
 }
