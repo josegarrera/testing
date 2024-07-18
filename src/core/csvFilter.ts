@@ -18,7 +18,7 @@ export class CsvFilter {
 
   get filteredLines() {
     const header = this.header;
-    const rows = this.validateInvoicesNumber(this.rows);
+    const rows = this.validateInvoicesNumbers(this.rows);
     const rowsFiltered = rows.filter(row => {
       const cells = row.split(',');
       return (
@@ -37,6 +37,23 @@ export class CsvFilter {
   private get rows() {
     return this.lines.filter((line, index) => index !== 0);
   }
+
+  private validateInvoicesNumbers = rows => {
+    const invoicesNumberCount = {};
+    rows.forEach(row => {
+      const cells = row.split(',');
+      const invoiceNumber = cells[INVOICE_NUMBER_COLUMN_POSITION];
+      invoicesNumberCount[invoiceNumber] =
+        (invoicesNumberCount[invoiceNumber] || 0) + 1;
+    });
+    return rows.filter(row => {
+      const cells = row.split(',');
+      return (
+        invoicesNumberCount[cells[INVOICE_NUMBER_COLUMN_POSITION]] ===
+        1
+      );
+    });
+  };
 
   private hasValidTaxesCombination = cells => {
     return (
@@ -64,22 +81,5 @@ export class CsvFilter {
       (cells[NIF_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[CIF_COLUMN_POSITION] !== EMPTY_VALUE)
     );
-  };
-
-  private validateInvoicesNumber = rows => {
-    const invoicesNumberCount = {};
-    rows.forEach(row => {
-      const cells = row.split(',');
-      const invoiceNumber = cells[INVOICE_NUMBER_COLUMN_POSITION];
-      invoicesNumberCount[invoiceNumber] =
-        (invoicesNumberCount[invoiceNumber] || 0) + 1;
-    });
-    return rows.filter(row => {
-      const cells = row.split(',');
-      return (
-        invoicesNumberCount[cells[INVOICE_NUMBER_COLUMN_POSITION]] ===
-        1
-      );
-    });
   };
 }
