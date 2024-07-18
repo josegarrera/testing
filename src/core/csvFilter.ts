@@ -9,15 +9,20 @@ export class CsvFilter {
   }
 
   get filteredLines() {
+    const header = this.lines.filter((line, index) => index === 0);
+    const rows = this.lines.filter((line, index) => index !== 0);
     return this.lines.filter((line, index) => {
       const cells = line.split(',');
-      return index !== 0 ? bothTaxesWithValues(cells) : true;
+      return index !== 0 ? this.hasValidTaxCombination(cells) : true;
     });
   }
-}
 
-const bothTaxesWithValues = cells =>
-  (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
-    cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
-  (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
-    cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE);
+  private hasValidTaxCombination(cells) {
+    return (
+      (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
+      (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE)
+    );
+  }
+}
