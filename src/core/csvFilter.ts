@@ -1,3 +1,4 @@
+const INVOICE_NUMBER_COLUMN_POSITION = 1;
 const GROSS_COLUMN_POSITION = 2;
 const NET_COLUMN_POSITION = 3;
 const IVA_COLUMN_POSITION = 4;
@@ -14,7 +15,7 @@ export class CsvFilter {
 
   get filteredLines() {
     const header = this.header;
-    const rows = this.rows;
+    const rows = this.validateInvoicesNumber(this.rows);
     const rowsFiltered = rows.filter(row => {
       const cells = row.split(',');
       return (
@@ -60,5 +61,22 @@ export class CsvFilter {
       (cells[NIF_COLUMN_POSITION] === EMPTY_VALUE &&
         cells[CIF_COLUMN_POSITION] !== EMPTY_VALUE)
     );
+  }
+
+  private validateInvoicesNumber(rows) {
+    const invoicesNumberCount = {};
+    rows.forEach(row => {
+      const cells = row.split(',');
+      const invoiceNumber = cells[INVOICE_NUMBER_COLUMN_POSITION];
+      invoicesNumberCount[invoiceNumber] =
+        (invoicesNumberCount[invoiceNumber] || 0) + 1;
+    });
+    return rows.filter(row => {
+      const cells = row.split(',');
+      return (
+        invoicesNumberCount[cells[INVOICE_NUMBER_COLUMN_POSITION]] ===
+        1
+      );
+    });
   }
 }
