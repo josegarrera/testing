@@ -40,8 +40,10 @@ export class CsvFilter {
 
   private hasValidTaxesCombination(cells) {
     return (
-      cells[IVA_COLUMN_POSITION] === EMPTY_VALUE ||
-      cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE
+      (cells[IVA_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[IGIC_COLUMN_POSITION] !== EMPTY_VALUE) ||
+      (cells[IGIC_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[IVA_COLUMN_POSITION] !== EMPTY_VALUE)
     );
   }
 
@@ -57,8 +59,10 @@ export class CsvFilter {
 
   private hasValidInfoCombination(cells) {
     return (
-      cells[CIF_COLUMN_POSITION] === EMPTY_VALUE ||
-      cells[NIF_COLUMN_POSITION] === EMPTY_VALUE
+      (cells[CIF_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[NIF_COLUMN_POSITION] !== EMPTY_VALUE) ||
+      (cells[NIF_COLUMN_POSITION] === EMPTY_VALUE &&
+        cells[CIF_COLUMN_POSITION] !== EMPTY_VALUE)
     );
   }
 
