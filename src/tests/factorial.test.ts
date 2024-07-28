@@ -19,4 +19,11 @@ describe('Factorial of a number', () => {
     const number: number = 6;
     expect(factorialOf(number)).toBe(720);
   });
+
+  it('should throw error if the number is -6', () => {
+    const number: number = -6;
+    expect(() => factorialOf(number)).toThrow(
+      'negative numbers are not supported on factorial operations'
+    );
+  });
 });
