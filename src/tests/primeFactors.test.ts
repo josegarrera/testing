@@ -10,4 +10,10 @@ describe('Prime Factors', () => {
   it('orders the prime factors from the smallest to the biggest', () => {
     expect(primeFactorsOf(5 * 7 * 11 * 3)).toEqual([3, 5, 7, 11]);
   });
+  it('knows that the first prime is nomber one', () => {
+    expect(primeFactorsOf(1)).toEqual([1]);
+  });
+  it('throws an error when the input number is less than one', () => {
+    expect(() => primeFactorsOf(-5)).toThrow();
+  });
 });

@@ -1,4 +1,6 @@
 export const primeFactorsOf = (number: number): number[] => {
+  if (number < 1)
+    throw new Error('Only positive numbers are allowed');
   const prime = findSmallestPrime(number);
   const remainder = number / prime;
   return remainder <= 1
@@ -7,6 +9,7 @@ export const primeFactorsOf = (number: number): number[] => {
 };
 
 const findSmallestPrime = (number: number) => {
+  if (number === 1) return 1;
   let factor = 2;
   while (number % factor !== 0) {
     ++factor;
