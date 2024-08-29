@@ -1,55 +1,26 @@
 import { wordWrapper } from '../core/wordWrapper';
-describe('A word wrapper', () => {
-  it('does nothing when the input is nothing', () => {
-    const input = '';
-    const width = 5;
-    expect(wordWrapper(input, width)).toBe(input);
+describe('The Word Wrap', () => {
+  it('empty text does not need to be wrapped', () => {
+    expect(wordWrapper('', 5)).toBe('');
+    expect(wordWrapper(null, 5)).toBe('');
+    expect(wordWrapper(undefined, 5)).toBe('');
   });
-  it('returns the same word if the word is smaller than the width', () => {
-    const input = 'hello';
-    const width = 5;
-    expect(wordWrapper(input, width)).toBe(input);
+  it('small text does not need to be wrapped', () => {
+    expect(wordWrapper('hello', 5)).toBe('hello');
   });
-  it('returns the divided word if the width is smaller than the word', () => {
-    const word = 'longword';
-    const width = 4;
-    const expected = 'long\nword';
-    expect(wordWrapper(word, width)).toBe(expected);
+  it('words are wrapped when do not fit the column width', () => {
+    expect(wordWrapper('longword', 4)).toBe('long\nword');
+    expect(wordWrapper('reallylongword', 4)).toBe(
+      'real\nlylo\nngwo\nrd'
+    );
   });
-  it('handles really long words', () => {
-    const word = 'reallylongword';
-    const width = 4;
-    const expected = 'real\nlylo\nngwo\nrd';
-    expect(wordWrapper(word, width)).toBe(expected);
+  it('spaces are preferred for wrapping', () => {
+    expect(wordWrapper('abc def', 4)).toBe('abc\ndef');
+    expect(wordWrapper('abc def ghi', 4)).toBe('abc\ndef\nghi');
+    expect(wordWrapper(' abcd', 4)).toBe('\nabcd');
   });
-  it('ignores empty spaces', () => {
-    const word = 'abc def';
-    const width = 4;
-    const expected = 'abc\ndef';
-    expect(wordWrapper(word, width)).toBe(expected);
-  });
-  it('ignores empty spaces in longer words', () => {
-    const word = 'abc def ghi';
-    const width = 4;
-    const expected = 'abc\ndef\nghi';
-    expect(wordWrapper(word, width)).toBe(expected);
-  });
-  it('adds a new line if the word starts with a space', () => {
-    const word = ' abcdf';
-    const width = 4;
-    const expected = '\nabcd\nf';
-    expect(wordWrapper(word, width)).toBe(expected);
-  });
-  it('returns empty string if null is send', () => {
-    const word = null;
-    const width = 5;
-    const expected = '';
-    expect(wordWrapper(word, width)).toBe(expected);
-  });
-  it('throws exception if it is used a negative width', () => {
-    const word = 'hello';
-    const width = -5;
-    expect(() => wordWrapper(word, width)).toThrow(
+  it('does not allow for negative column width', () => {
+    expect(() => wordWrapper('hello', -5)).toThrow(
       new Error('width must be a positive number')
     );
   });

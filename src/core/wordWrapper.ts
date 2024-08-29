@@ -1,11 +1,11 @@
 export function wordWrapper(
-  word: string | null,
+  word: string | null | undefined,
   width: number
 ): string {
   const isWidthNoPositive = width <= 0;
   if (isWidthNoPositive)
     throw new Error('width must be a positive number');
-  if (word === null) return '';
+  if (word === null || word === undefined) return '';
   if (word.length <= width) {
     return word;
   }
@@ -23,7 +23,8 @@ export function wordWrapper(
   });
   wordGrouping.push(partialWord);
   wordGrouping = wordGrouping.map(word => word.trim());
-  return word !== wordTrimmed
+  const hasTrailingWhitespace = word !== wordTrimmed;
+  return hasTrailingWhitespace
     ? '\n' + wordGrouping.join('\n')
     : wordGrouping.join('\n');
 }
