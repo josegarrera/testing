@@ -40,4 +40,10 @@ describe('A word wrapper', () => {
     const expected = '\nabcd\nf';
     expect(wordWrapper(word, width)).toBe(expected);
   });
+  it('returns empty string if null is send', () => {
+    const word = null;
+    const width = 5;
+    const expected = '';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
 });

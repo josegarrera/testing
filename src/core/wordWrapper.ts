@@ -1,4 +1,5 @@
 export function wordWrapper(word: string, width: number): string {
+  if (word === null) return '';
   if (word.length <= width) {
     return word;
   }
