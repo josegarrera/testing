@@ -2,8 +2,9 @@ export function wordWrapper(word: string, width: number): string {
   if (word.length <= width) {
     return word;
   }
+  const wordTrimmed = word.trim();
   let wordGrouping: string[] = [];
-  const characters = word.split('');
+  const characters = wordTrimmed.split('');
   let partialWord = '';
   characters.forEach(char => {
     if (partialWord.length < width) {
@@ -15,5 +16,7 @@ export function wordWrapper(word: string, width: number): string {
   });
   wordGrouping.push(partialWord);
   wordGrouping = wordGrouping.map(word => word.trim());
-  return wordGrouping.join('\n');
+  return word !== wordTrimmed
+    ? '\n' + wordGrouping.join('\n')
+    : wordGrouping.join('\n');
 }
