@@ -14,5 +14,6 @@ export function wordWrapper(word: string, width: number): string {
     }
   });
   wordGrouping.push(partialWord);
+  wordGrouping = wordGrouping.map(word => word.trim());
   return wordGrouping.join('\n');
 }
