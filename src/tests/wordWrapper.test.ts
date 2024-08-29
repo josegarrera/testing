@@ -16,4 +16,10 @@ describe('A word wrapper', () => {
     const expected = 'long\nword';
     expect(wordWrapper(word, width)).toBe(expected);
   });
+  it('handles really long words', () => {
+    const word = 'reallylongword';
+    const width = 4;
+    const expected = 'real\nlylo\nngwo\nrd';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
 });
