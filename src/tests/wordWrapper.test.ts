@@ -46,4 +46,11 @@ describe('A word wrapper', () => {
     const expected = '';
     expect(wordWrapper(word, width)).toBe(expected);
   });
+  it('throws exception if it is used a negative width', () => {
+    const word = 'hello';
+    const width = -5;
+    expect(() => wordWrapper(word, width)).toThrow(
+      new Error('width must be a positive number')
+    );
+  });
 });
