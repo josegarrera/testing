@@ -28,4 +28,16 @@ describe('A word wrapper', () => {
     const expected = 'abc\ndef';
     expect(wordWrapper(word, width)).toBe(expected);
   });
+  it('ignores empty spaces in longer words', () => {
+    const word = 'abc def ghi';
+    const width = 4;
+    const expected = 'abc\ndef\nghi';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
+  it('adds a new line if the word starts with a space', () => {
+    const word = ' abcdf';
+    const width = 4;
+    const expected = '\nabcd\nf';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
 });
