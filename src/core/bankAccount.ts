@@ -19,7 +19,9 @@ export class Account implements IAccount {
   deposit(amount: number): void {
     this.amount = Money.create(this.amount.value + amount);
   }
-  withdraw(amount: number): void {}
+  withdraw(amount: number): void {
+    this.amount = Money.create(this.amount.value - amount);
+  }
   printStatement(): void {}
   get value() {
     return this.amount;

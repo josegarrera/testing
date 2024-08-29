@@ -8,4 +8,13 @@ describe('Bank Account', () => {
     const expected = initialBalance.value + deposit.value;
     expect(account.value.value).toBe(expected);
   });
+
+  it('must decrement the account balance in x dollars if it withdraw x dollars', () => {
+    const initialBalance = Money.create(500);
+    const account = new Account(initialBalance);
+    const withdraw = Money.create(100);
+    account.withdraw(Money.create(withdraw.value).value);
+    const expected = initialBalance.value - withdraw.value;
+    expect(account.value.value).toBe(expected);
+  });
 });
