@@ -22,4 +22,10 @@ describe('A word wrapper', () => {
     const expected = 'real\nlylo\nngwo\nrd';
     expect(wordWrapper(word, width)).toBe(expected);
   });
+  it('ignores empty spaces', () => {
+    const word = 'abc def';
+    const width = 4;
+    const expected = 'abc\ndef';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
 });
