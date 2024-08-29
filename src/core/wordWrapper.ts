@@ -2,7 +2,9 @@ export function wordWrapper(
   word: string | null,
   width: number
 ): string {
-  if (width <= 0) throw new Error('width must be a positive number');
+  const isWidthNoPositive = width <= 0;
+  if (isWidthNoPositive)
+    throw new Error('width must be a positive number');
   if (word === null) return '';
   if (word.length <= width) {
     return word;
