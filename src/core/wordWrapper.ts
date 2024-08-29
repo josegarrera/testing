@@ -22,21 +22,24 @@ export class WrappableText {
   get value() {
     return this.text;
   }
+  fitsIn(columnWidth: ColumnWidth) {
+    return this.value.length <= columnWidth.value;
+  }
 }
 
 export function wordWrapper(
   word: WrappableText,
-  width: ColumnWidth
-): string {
-  if (word.value.length <= width.value) {
-    return word.value;
+  columnWidth: ColumnWidth
+): WrappableText {
+  if (word.fitsIn(columnWidth)) {
+    return word;
   }
   const wordTrimmed = WrappableText.create(word.value.trim());
   let wordGrouping: string[] = [];
   const characters = wordTrimmed.value.split('');
   let partialWord = '';
   characters.forEach(char => {
-    if (partialWord.length < width.value) {
+    if (partialWord.length < columnWidth.value) {
       partialWord = partialWord + char;
     } else {
       wordGrouping.push(partialWord);
@@ -45,8 +48,8 @@ export function wordWrapper(
   });
   wordGrouping.push(partialWord);
   wordGrouping = wordGrouping.map(word => word.trim());
-  const hasTrailingWhitespace = word.value !== wordTrimmed.value;
-  return hasTrailingWhitespace
-    ? '\n' + wordGrouping.join('\n')
-    : wordGrouping.join('\n');
+  const hadTrailingWhitespace = word.value !== wordTrimmed.value;
+  return hadTrailingWhitespace
+    ? WrappableText.create('\n' + wordGrouping.join('\n'))
+    : WrappableText.create(wordGrouping.join('\n'));
 }

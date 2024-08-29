@@ -7,16 +7,16 @@ describe('The Word Wrap', () => {
   it('empty text does not need to be wrapped', () => {
     expect(
       wordWrapper(WrappableText.create(''), ColumnWidth.create(5))
-    ).toBe('');
+    ).toMatchObject(WrappableText.create(''));
     expect(
       wordWrapper(WrappableText.create(null), ColumnWidth.create(5))
-    ).toBe('');
+    ).toMatchObject(WrappableText.create(''));
     expect(
       wordWrapper(
         WrappableText.create(undefined),
         ColumnWidth.create(5)
       )
-    ).toBe('');
+    ).toMatchObject(WrappableText.create(''));
   });
   it('small text does not need to be wrapped', () => {
     expect(
@@ -24,7 +24,7 @@ describe('The Word Wrap', () => {
         WrappableText.create('hello'),
         ColumnWidth.create(5)
       )
-    ).toBe('hello');
+    ).toMatchObject(WrappableText.create('hello'));
   });
   it('words are wrapped when do not fit the column width', () => {
     expect(
@@ -32,13 +32,13 @@ describe('The Word Wrap', () => {
         WrappableText.create('longword'),
         ColumnWidth.create(4)
       )
-    ).toBe('long\nword');
+    ).toMatchObject(WrappableText.create('long\nword'));
     expect(
       wordWrapper(
         WrappableText.create('reallylongword'),
         ColumnWidth.create(4)
       )
-    ).toBe('real\nlylo\nngwo\nrd');
+    ).toMatchObject(WrappableText.create('real\nlylo\nngwo\nrd'));
   });
   it('spaces are preferred for wrapping', () => {
     expect(
@@ -46,19 +46,19 @@ describe('The Word Wrap', () => {
         WrappableText.create('abc def'),
         ColumnWidth.create(4)
       )
-    ).toBe('abc\ndef');
+    ).toMatchObject(WrappableText.create('abc\ndef'));
     expect(
       wordWrapper(
         WrappableText.create('abc def ghi'),
         ColumnWidth.create(4)
       )
-    ).toBe('abc\ndef\nghi');
+    ).toMatchObject(WrappableText.create('abc\ndef\nghi'));
     expect(
       wordWrapper(
         WrappableText.create(' abcd'),
         ColumnWidth.create(4)
       )
-    ).toBe('\nabcd');
+    ).toMatchObject(WrappableText.create('\nabcd'));
   });
   it('does not allow for negative column width', () => {
     expect(() =>
