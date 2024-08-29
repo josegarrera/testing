@@ -10,4 +10,10 @@ describe('A word wrapper', () => {
     const width = 5;
     expect(wordWrapper(input, width)).toBe(input);
   });
+  it('returns the divided word if the width is smaller than the word', () => {
+    const word = 'longword';
+    const width = 4;
+    const expected = 'long\nword';
+    expect(wordWrapper(word, width)).toBe(expected);
+  });
 });

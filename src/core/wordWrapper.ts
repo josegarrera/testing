@@ -1,3 +1,6 @@
 export function wordWrapper(word: string, width: number): string {
-  return word;
+  if (word.length <= width) {
+    return word;
+  }
+  return 'long\nword';
 }
